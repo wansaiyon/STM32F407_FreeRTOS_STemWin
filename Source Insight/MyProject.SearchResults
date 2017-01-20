@@ -1,0 +1,5 @@
+---- WM_DeleteWindow Matches (4 in 3 files) ----
+Hmi_switch.c (d:\github\stm32f407_freertos_stemwin\source\application\hmi):					WM_DeleteWindow(pArgs->hWinOff);
+Hmi_switch.c (d:\github\stm32f407_freertos_stemwin\source\application\hmi):				WM_DeleteWindow(pArgs->hWinOff);
+Panel.c (d:\github\stm32f407_freertos_stemwin\source\application):		WM_DeleteWindow(hWinChan[ch]);	// É¾³ýÍ¨µÀ´°¿Ú
+WM.h (d:\github\stm32f407_freertos_stemwin\source\stemwin532\inc):void    WM_DeleteWindow              (WM_HWIN hWin);
