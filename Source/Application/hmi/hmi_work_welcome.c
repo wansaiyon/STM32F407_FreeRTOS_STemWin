@@ -20,22 +20,19 @@ static void _cbCallback(WM_MESSAGE * pMsg)
 		// 控件初始化
         hItem = WM_GetDialogItem(pMsg->hWin, ID_IMAGE_1);
         IMAGE_SetBitmap(hItem, resGetBitmap(BMP_LOGO));
-		// 创建定时器，定时器ID即为通道号
-		pArgs = (HMI_CHAN_ARGS*)pvTaskGetThreadLocalStoragePointer(0, 0);
-		WM_CreateTimer(pMsg->hWin, pArgs->chan, 2000, 0);
-		// 屏蔽开关键
-		pArgs->offFlg = HMI_SW_OFF_FLG_NACK;
 		break;
 	case WM_TIMER:
-		// 获取通道号
-		ch = WM_GetTimerId(pMsg->Data.v);
-		// 删除定时器
-		WM_DeleteTimer(pMsg->Data.v);
+		ch = WM_GetTimerId(pMsg->Data.v);	// 获取通道号
+		WM_DeleteTimer(pMsg->Data.v);		// 删除定时器
+		WM_HideWindow(pMsg->hWin);			// 隐藏自身
 		// 响应开关键
 		// 此处获取任务相关参数时，不能采用当前任务句柄，
 		// 因为定时器消息产生时，回调函数通过系统定时任务调用，而不是通道任务
 		pArgs = (HMI_CHAN_ARGS*)pvTaskGetThreadLocalStoragePointer(panelTaskGetChanHandle(ch), 0);
 		pArgs->offFlg = HMI_SW_OFF_FLG_EN;
+		// 显示下一个界面 todo
+		pArgs->hWinClient = pArgs->hWinList[HMI_WORK_WIN_MENU];
+		WM_ShowWindow(pArgs->hWinClient);
 		break;
 	default:
 		WM_DefaultProc(pMsg);

@@ -116,11 +116,12 @@ enum	// 工作界面定义
 {
 	HMI_WORK_WIN_CAN_NOT_INTO_WORK = 0,
 	HMI_WORK_WIN_WELCOME,
-//	HMI_WORK_WIN_WORK,
+	HMI_WORK_WIN_MENU,
 	HMI_WORK_WIN_NUM,
 };
 WM_HWIN hmiWorkNotCreate(WM_HWIN hParent);
 WM_HWIN hmiWorkWelcomeCreate(WM_HWIN hParent);
+WM_HWIN hmiWorkMenuCreate(WM_HWIN hParent);
 u8   hmiIsAnyChanInWork(void);
 void hmiWorkCreate(void);
 void hmiWorkExit(void);
@@ -151,11 +152,7 @@ typedef struct
 	WM_HWIN		hWinStat;	// 通道状态栏窗口句柄
 	WM_HWIN		hWinClient;	// 通道主窗口句柄
 	WM_HWIN		hWinAlarm;	// 通道报警窗口句柄
-#if HMI_WORK_WIN_NUM > HMI_MT_WIN_NUM
-	WM_HWIN		hWinList[HMI_WORK_WIN_NUM];
-#else
-	WM_HWIN		hWinList[HMI_MT_WIN_NUM];
-#endif
+	WM_HWIN		hWinList[HMI_WORK_WIN_NUM+HMI_MT_WIN_NUM];	// 因不能用枚举作为条件编译选项，为简化编程，此处采用两个页面数之和，牺牲空间
 	TickType_t	tick;		// 当任务需要定时，但又不能阻塞时，该变量记录定时起点的系统时钟
 }HMI_CHAN_ARGS;
 

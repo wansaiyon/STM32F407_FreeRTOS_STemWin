@@ -471,6 +471,11 @@
               <FileType>1</FileType>
               <FilePath>..\Source\Application\hmi\hmi_work_not.c</FilePath>
             </File>
+            <File>
+              <FileName>hmi_work_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Source\Application\hmi\hmi_work_menu.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

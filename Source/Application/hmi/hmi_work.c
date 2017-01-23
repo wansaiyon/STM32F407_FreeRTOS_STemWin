@@ -7,6 +7,7 @@ static const pWinCreate hmiWinCreateTbl[HMI_WORK_WIN_NUM] =
 {
 	hmiWorkNotCreate,
 	hmiWorkWelcomeCreate,
+	hmiWorkMenuCreate,
 };
 
 /*******************************************************************************
@@ -49,6 +50,18 @@ void hmiWorkCreate(void)
 			ledErrorIndicator();
 		}
 		WM_HideWindow(pArgs->hWinList[i]);
+	}
+
+	// 显示第一个界面
+	if(hmiIsAnyChanInMaintain())
+	{
+		WM_ShowWindow(pArgs->hWinList[HMI_WORK_WIN_CAN_NOT_INTO_WORK]);
+	}
+	else
+	{
+		WM_CreateTimer(pArgs->hWinList[HMI_WORK_WIN_WELCOME], pArgs->chan, 2000, 0);	// 创建定时器，定时器ID即为通道号
+		pArgs->offFlg = HMI_SW_OFF_FLG_NACK;											// 屏蔽开关键
+		WM_ShowWindow(pArgs->hWinList[HMI_WORK_WIN_WELCOME]);							// 显示界面
 	}
 }
 
