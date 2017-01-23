@@ -116,7 +116,7 @@ static void _cbPanel(WM_MESSAGE * pMsg)
 		break;
 	// GUI消息处理
 	case WM_INIT_DIALOG:
-		WINDOW_SetBkColor(pMsg->hWin, GUI_MAKE_COLOR(0x00F08E4D));
+		WINDOW_SetBkColor(pMsg->hWin, GUI_GRAY_50);
 		hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_KEY_VALUE);
 		TEXT_SetFont(hItem, GUI_FONT_8X16X2X2);
         hItem = WM_GetDialogItem(pMsg->hWin, ID_TEXT_KEY_STA);

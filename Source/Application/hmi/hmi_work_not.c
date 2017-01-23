@@ -30,4 +30,3 @@ WM_HWIN hmiWorkNotCreate(WM_HWIN hParent)
 {
 	return GUI_CreateDialogBox(_aWindowCreate, GUI_COUNTOF(_aWindowCreate), _cbCallback, hParent, 0, 0);
 }
-

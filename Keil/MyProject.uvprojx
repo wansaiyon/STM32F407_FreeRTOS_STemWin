@@ -476,6 +476,11 @@
               <FileType>1</FileType>
               <FilePath>..\Source\Application\hmi\hmi_work_menu.c</FilePath>
             </File>
+            <File>
+              <FileName>hmi_work_status.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Source\Application\hmi\hmi_work_status.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

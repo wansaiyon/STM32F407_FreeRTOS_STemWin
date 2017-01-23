@@ -8,6 +8,7 @@ static const pWinCreate hmiWinCreateTbl[HMI_WORK_WIN_NUM] =
 	hmiWorkNotCreate,
 	hmiWorkWelcomeCreate,
 	hmiWorkMenuCreate,
+	hmiWorkStatusCreate,
 };
 
 /*******************************************************************************

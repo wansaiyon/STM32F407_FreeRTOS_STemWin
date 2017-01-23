@@ -11,6 +11,7 @@ static const GUI_WIDGET_CREATE_INFO _aWindowCreate[] =
 static void _cbCallback(WM_MESSAGE * pMsg)
 {
 	WM_HWIN hItem;
+	WM_MESSAGE msg;
 	u8 ch;
 	HMI_CHAN_ARGS* pArgs;
 
@@ -30,7 +31,12 @@ static void _cbCallback(WM_MESSAGE * pMsg)
 		// 因为定时器消息产生时，回调函数通过系统定时任务调用，而不是通道任务
 		pArgs = (HMI_CHAN_ARGS*)pvTaskGetThreadLocalStoragePointer(panelTaskGetChanHandle(ch), 0);
 		pArgs->offFlg = HMI_SW_OFF_FLG_EN;
-		// 显示下一个界面 todo
+		// 显示下一个界面
+		pArgs->hWinStat = pArgs->hWinList[HMI_WORK_WIN_STATUS];
+		msg.MsgId = HMI_MSG_STAT_INFO;
+		msg.Data.p = LangGetStr(sysGetLang(), STR_MENU);
+		WM_SendMessage(pArgs->hWinStat, &msg);
+		WM_ShowWindow(pArgs->hWinStat);
 		pArgs->hWinClient = pArgs->hWinList[HMI_WORK_WIN_MENU];
 		WM_ShowWindow(pArgs->hWinClient);
 		break;

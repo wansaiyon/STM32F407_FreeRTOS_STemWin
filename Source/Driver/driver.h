@@ -55,7 +55,7 @@ typedef struct
 KEY  keyGetKey(void);
 
 /* System Parameters */
-#define sysGetLang()	(1)
+#define sysGetLang()	(0)
 
 /* Init */
 #define drvInit()	\

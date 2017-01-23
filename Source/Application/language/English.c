@@ -12,10 +12,10 @@ const char* LangEnglish[] =
 	"CAN NOT SWITCH OFF NOW",  // STR_INFO_CAN_NOT_SWITCH_OFF
 	"Switching off",  // STR_INFO_SWITCHING_OFF
 	"English",  // STR_LANGUAGE
+	"Menu",  // STR_MENU
 	"About",  // STR_MENU_ABOUT
 	"Advanced setting",  // STR_MENU_ADVANCED_SETTING
 	"Syringe brand selection",  // STR_MENU_BRAND_SELECTION
 	"Mode selection",  // STR_MENU_MODE_SELECTION
-	"Menu",  // STR_MENU_NAME
 	"System configuration",  // STR_MENU_SYSTEM_CONFIG
 };

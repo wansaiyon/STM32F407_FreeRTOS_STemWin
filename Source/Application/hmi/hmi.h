@@ -38,6 +38,7 @@ enum
 	HMI_MSG_KEY,
     HMI_MSG_SW_OFF,
     HMI_MSG_ALARM,
+    HMI_MSG_STAT_INFO,		// 设置状态栏的文字信息
 };
 
 /*******************************************************************************
@@ -117,11 +118,13 @@ enum	// 工作界面定义
 	HMI_WORK_WIN_CAN_NOT_INTO_WORK = 0,
 	HMI_WORK_WIN_WELCOME,
 	HMI_WORK_WIN_MENU,
+	HMI_WORK_WIN_STATUS,
 	HMI_WORK_WIN_NUM,
 };
 WM_HWIN hmiWorkNotCreate(WM_HWIN hParent);
 WM_HWIN hmiWorkWelcomeCreate(WM_HWIN hParent);
 WM_HWIN hmiWorkMenuCreate(WM_HWIN hParent);
+WM_HWIN hmiWorkStatusCreate(WM_HWIN hParent);
 u8   hmiIsAnyChanInWork(void);
 void hmiWorkCreate(void);
 void hmiWorkExit(void);

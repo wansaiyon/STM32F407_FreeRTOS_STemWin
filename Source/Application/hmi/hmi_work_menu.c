@@ -2,15 +2,20 @@
 
 #define ID_LISTBOX_1     (GUI_ID_USER + 0x01)
 
-static const u32 menuListTextId[] =
+typedef struct
 {
-	STR_MENU_MODE_SELECTION,
-	STR_MENU_BRAND_SELECTION,
-	STR_MENU_SYSTEM_CONFIG,
-	STR_MENU_ADVANCED_SETTING,
-	STR_MENU_ABOUT,
+	u16 textId;
+	u16 nextWinId;
+}menuListInfo_t;
+static const menuListInfo_t menuListInfo[] =
+{
+	{ STR_MENU_MODE_SELECTION,		0},
+	{ STR_MENU_BRAND_SELECTION,		0},
+	{ STR_MENU_SYSTEM_CONFIG,		0},
+	{ STR_MENU_ADVANCED_SETTING,	0},
+	{ STR_MENU_ABOUT,				0},
 };
-#define WORK_MENU_ITEM_NUM	(sizeof(menuListTextId)/sizeof(menuListTextId[0]))
+#define WORK_MENU_ITEM_NUM	(sizeof(menuListInfo)/sizeof(menuListInfo[0]))
 
 static const GUI_WIDGET_CREATE_INFO _aWindowCreate[] =
 {
@@ -21,22 +26,44 @@ static const GUI_WIDGET_CREATE_INFO _aWindowCreate[] =
 static void _cbCallback(WM_MESSAGE * pMsg)
 {
 	WM_HWIN hItem;
+	WM_MESSAGE msg;
 	u32 i;
+	HMI_CHAN_ARGS* pArgs;
 
 	switch (pMsg->MsgId)
 	{
 	case HMI_MSG_KEY:
-		hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTBOX_1);
-		switch(pMsg->Data.v)
+		if(pMsg->Data.v & HMI_KEY_PRESSED)
 		{
-		case HMI_KEY_UP|HMI_KEY_PRESSED:
-			LISTBOX_DecSel(hItem);
-			break;
-		case HMI_KEY_DN|HMI_KEY_PRESSED:
-			LISTBOX_IncSel(hItem);
-			break;
-		default:
-			break;
+			hItem = WM_GetDialogItem(pMsg->hWin, ID_LISTBOX_1);
+			switch(pMsg->Data.v)
+			{
+			case HMI_KEY_UP:
+			case HMI_KEY_FUP:
+				LISTBOX_DecSel(hItem);
+				break;
+			case HMI_KEY_DN:
+			case HMI_KEY_FDN:
+				LISTBOX_IncSel(hItem);
+				break;
+			case HMI_KEY_ENTER:
+				pArgs = (HMI_CHAN_ARGS*)pvTaskGetThreadLocalStoragePointer(0, 0);
+				hItem = pArgs->hWinList[menuListInfo[LISTBOX_GetSel(hItem)].nextWinId];
+				if(WM_IsWindow(hItem))
+				{
+					// 更新状态栏信息
+					msg.MsgId = HMI_MSG_STAT_INFO;
+					msg.Data.p = LangGetStr(sysGetLang(), STR_MENU);
+					WM_SendMessage(pArgs->hWinStat, &msg);
+					// 隐藏自身
+					WM_HideWindow(pMsg->hWin);
+					// 显示下一个界面
+					WM_ShowWindow(hItem);
+				}
+				break;
+			default:
+				break;
+			}
 		}
 		break;
 	case WM_INIT_DIALOG:
@@ -52,7 +79,7 @@ static void _cbCallback(WM_MESSAGE * pMsg)
 		LISTBOX_SetFont(hItem, LangGetFont(sysGetLang(), 32));
 		for(i=0; i<WORK_MENU_ITEM_NUM; i++)
 		{
-			LISTBOX_AddString(hItem, LangGetStr(sysGetLang(), menuListTextId[i]));
+			LISTBOX_AddString(hItem, LangGetStr(sysGetLang(), menuListInfo[i].textId));
 		}
 		break;
 	default:
